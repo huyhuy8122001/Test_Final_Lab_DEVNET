@@ -1,0 +1,11 @@
+---
+- name: Kiem tra ket noi PC-A vs PC-B
+  hosts: Router
+  gather_facts: no
+  
+  tasks:
+    - name: Kiem tra ket noi PC-B den R1-e0/1
+      ios_ping:
+        dest: "{{ item.ip_dest }}"
+        source: "{{ item.ip_source }}"
+      with_items: "{{ ping }}"

@@ -1,0 +1,25 @@
+---
+
+- name: Cau hinh IP cac cong nhu hinh ve
+  hosts: Router
+  gather_facts: no
+  connection: network_cli
+
+  tasks:
+    - name: Set e0/1 IPv4 address
+      ios_config:
+        lines: "{{ e01 }}"
+        parents: Interface Ethernet0/1
+       
+    - name: Set e0/2 IPv4 address
+      ios_config:
+        lines: "{{ e02 }}"
+        parents: Interface Ethernet0/2
+
+    - name: show ip
+      ios_command:
+        commands: 
+          - show ip int brief | inc up
+      register: show_ip
+    - debug: var=show_ip.stdout_lines
+   
